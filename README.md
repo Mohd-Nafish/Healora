@@ -1,56 +1,225 @@
-# Welcome to your Expo app 👋
+# Healora
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+**Smart healthcare at your fingertips**
 
-## Get started
+Healora is a modern React Native healthcare app built with **Expo** and **TypeScript**. Browse doctors, book appointments, and get AI-powered symptom guidance — all in a clean white-and-blue UI inspired by apps like Practo and Apollo.
 
-1. Install dependencies
+---
 
-   ```bash
-   npm install
-   ```
+## Screenshots
 
-2. Start the app
+| Home | AI Assistant | Doctor profile | Booking | Bookings |
+| :---: | :---: | :---: | :---: | :---: |
+| <img width="240" alt="Home screen" src="https://github.com/user-attachments/assets/9768f761-6937-4a9a-97ea-7f7282cb9e54" /> | <img width="240" alt="AI Assistant screen" src="https://github.com/user-attachments/assets/7efd76f5-6048-4f3f-b8df-ca367dd6e33b" /> | <img width="240" alt="Doctor profile screen" src="https://github.com/user-attachments/assets/771dbcf6-1d9d-4337-b2af-935dce1f9c6a" /> | <img width="240" alt="Booking screen" src="https://github.com/user-attachments/assets/deb96221-dcf4-4e06-b4c6-0bc1a1f4348e" /> | <img width="240" alt="Bookings screen" src="https://github.com/user-attachments/assets/76af33cf-3b28-4cde-b7d4-56ca974b4232" /> |
 
-   ```bash
-   npx expo start
-   ```
+---
 
-In the output, you'll find options to open the app in a
+## Features
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### Home
+- Browse doctors from a local API (`json-server`)
+- Real-time search by **name**, **specialty**, and **hospital**
+- Horizontal **specialty filters** (All, Cardiologist, Dentist, Neurologist, and more)
+- Premium **doctor cards** with photos, ratings, experience, and fees
+- Empty state when no results match
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### Doctor profile & booking
+- Detailed doctor screen (about, fee, available slots)
+- **Book appointment** flow with date picker, time slots, and patient form
+- Appointments saved locally on device (AsyncStorage)
+- Success confirmation and redirect to **Bookings** tab
 
-## Get a fresh project
+### AI Assistant
+- Chat-style **symptom checker** powered by **Google Gemini**
+- Quick suggestion chips (Fever, Headache, Cough, Chest pain, Anxiety)
+- Structured AI responses in separate cards:
+  - Possible causes
+  - Recommended specialist
+  - Basic precautions
+- Typing indicator while the AI responds
+- Offline fallback when API quota is exceeded
 
-When you're ready, run:
+### Bookings
+- View all confirmed appointments
+- Doctor photo, visit date/time, patient details, and fee
+- Persists across app restarts (no backend required)
 
-```bash
-npm run reset-project
+---
+
+## Tech stack
+
+| Layer | Technology |
+|--------|------------|
+| Framework | [Expo SDK 56](https://docs.expo.dev/) |
+| Language | TypeScript |
+| Navigation | [Expo Router](https://docs.expo.dev/router/introduction/) (file-based) |
+| UI | React Native, Reanimated, Lucide icons |
+| HTTP | Axios |
+| AI | `@google/generative-ai` (Gemini) |
+| Local storage | `@react-native-async-storage/async-storage` |
+| Mock API | [json-server](https://github.com/typicode/json-server) |
+
+---
+
+## Project structure
+
+```
+src/
+├── app/                    # Expo Router routes
+│   ├── (tabs)/             # Bottom tabs: Home, AI Assistant, Bookings
+│   ├── doctor-details.tsx
+│   └── booking.tsx
+├── components/             # Reusable UI (DoctorCard, ChatBubble, etc.)
+├── screens/                # Screen logic
+├── services/               # API & Gemini & appointment storage
+├── types/                  # TypeScript interfaces
+├── constants/              # Colors, specialties, design tokens
+└── utils/                  # Filters, booking dates, error helpers
+db.json                     # Doctor data for json-server
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+---
 
-### Other setup steps
+## Prerequisites
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+- [Node.js](https://nodejs.org/) (LTS recommended)
+- npm
+- [Expo Go](https://expo.dev/go) on a physical device, or iOS Simulator / Android Emulator
+- A [Google Gemini API key](https://aistudio.google.com/apikey) (for AI Assistant)
+
+---
+
+## Getting started
+
+### 1. Install dependencies
+
+```bash
+npm install
+```
+
+### 2. Environment variables
+
+Copy the example env file and add your Gemini API key:
+
+```bash
+cp .env.example .env
+```
+
+Edit `.env`:
+
+```env
+EXPO_PUBLIC_GEMINI_API_KEY=your_api_key_here
+```
+
+> **Note:** Never commit `.env` to git. The key is loaded via `EXPO_PUBLIC_*` at build time. Restart Expo after changing `.env`.
+
+### 3. Start the doctor API (json-server)
+
+In a **separate terminal**, from the project root:
+
+```bash
+json-server --watch db.json
+```
+
+The API runs at `http://localhost:3000`. Doctors are available at:
+
+```
+http://localhost:3000/doctors
+```
+
+### 4. Start the Expo app
+
+```bash
+npx expo start
+```
+
+Then press:
+
+- `i` — iOS Simulator  
+- `a` — Android Emulator  
+- Scan QR code — Expo Go on your phone  
+
+**Android emulator:** the app uses `10.0.2.2` instead of `localhost` to reach json-server on your machine.
+
+**Physical device:** use your computer’s LAN IP in `src/services/doctorService.ts` if `localhost` does not work.
+
+---
+
+## Available scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm start` | Start Expo dev server |
+| `npm run ios` | Open on iOS simulator |
+| `npm run android` | Open on Android emulator |
+| `npm run web` | Open in web browser |
+| `npm run lint` | Run ESLint |
+
+---
+
+## App navigation
+
+| Tab | Screen | Description |
+|-----|--------|-------------|
+| **Home** | `HomeScreen` | Doctor list, search, filters |
+| **AI Assistant** | `SymptomCheckerScreen` | Gemini symptom chat |
+| **Bookings** | `AppointmentsScreen` | Saved appointments |
+
+Stack screens (from Home):
+
+- **Doctor profile** → **Book appointment**
+
+---
+
+## Doctor data (`db.json`)
+
+Each doctor includes:
+
+- `id`, `name`, `specialty`, `hospital`
+- `rating`, `experience`, `fee`
+- `image` (randomuser.me portraits)
+- `about`, `availableSlots`
+
+You can edit `db.json` while json-server is running; it reloads automatically.
+
+---
+
+## AI Assistant notes
+
+- Primary model: `gemini-2.5-flash` (with fallbacks if unavailable)
+- Responses are parsed as JSON and shown in structured cards
+- If all models fail or quota is exceeded, general **offline guidance** is shown instead of a raw API error
+
+---
+
+## Design
+
+- White background with blue accent (`#2563EB`)
+- Human Interface Guidelines–inspired spacing and touch targets
+- Subtle card shadows, rounded corners, and press animations
+- Functional components only; beginner-friendly folder layout
+
+---
+
+## Troubleshooting
+
+| Issue | Fix |
+|-------|-----|
+| No doctors loading | Ensure `json-server --watch db.json` is running on port 3000 |
+| AI not responding | Check `EXPO_PUBLIC_GEMINI_API_KEY` in `.env` and restart Expo |
+| Android can’t reach API | json-server must run on your host; app uses `10.0.2.2:3000` |
+| Bookings empty | Complete a booking from Home → Doctor → Book Appointment |
+
+---
+
+## License
+
+See [LICENSE](LICENSE) in this repository.
+
+---
 
 ## Learn more
 
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- [Expo documentation](https://docs.expo.dev/)
+- [Expo Router](https://docs.expo.dev/router/introduction/)
+- [React Native](https://reactnative.dev/)
