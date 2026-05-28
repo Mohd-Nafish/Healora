@@ -10,7 +10,7 @@ Healora is a modern React Native healthcare app built with **Expo** and **TypeSc
 
 | Home | AI Assistant | Doctor profile | Booking | Bookings |
 | :---: | :---: | :---: | :---: | :---: |
-| <img width="240" alt="Home screen" src="https://github.com/user-attachments/assets/76af33cf-3b28-4cde-b7d4-56ca974b4232" /> | <img width="240" alt="AI Assistant screen" src="https://github.com/user-attachments/assets/7efd76f5-6048-4f3f-b8df-ca367dd6e33b" /> | <img width="240" alt="Doctor profile screen" src="https://github.com/user-attachments/assets/771dbcf6-1d9d-4337-b2af-935dce1f9c6a" /> | <img width="240" alt="Booking screen" src="https://github.com/user-attachments/assets/deb96221-dcf4-4e06-b4c6-0bc1a1f4348e" /> | <img width="240" alt="Booking screen" src="https://github.com/user-attachments/assets/9768f761-6937-4a9a-97ea-7f7282cb9e54" /> |
+| <img width="240" alt="Home screen" src="https://github.com/user-attachments/assets/76af33cf-3b28-4cde-b7d4-56ca974b4232" /> | <img width="240" alt="AI Assistant screen" src="https://github.com/user-attachments/assets/deb96221-dcf4-4e06-b4c6-0bc1a1f4348e" /> | <img width="240" alt="Doctor profile screen" src="https://github.com/user-attachments/assets/771dbcf6-1d9d-4337-b2af-935dce1f9c6a" /> | <img width="240" alt="Booking screen" src="https://github.com/user-attachments/assets/7efd76f5-6048-4f3f-b8df-ca367dd6e33b" /> | <img width="240" alt="Booking screen" src="https://github.com/user-attachments/assets/9768f761-6937-4a9a-97ea-7f7282cb9e54" /> |
 
 ---
 
